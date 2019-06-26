@@ -1,0 +1,38 @@
+    
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: AksDeploy-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: AksDeploy-master
+  template:
+    metadata:
+      labels:
+        app: AksDeploy-master
+    spec:
+      containers:
+      - name: AksDeploy-master
+        image: blueacr.azurecr.io/Ragadeep/AksDeploy:#{Build.BuildId}#
+        ports:
+        - containerPort: 80
+        env:
+          - name: PODNAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+      imagePullSecrets:
+      - name: ragasecret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: AksDeploy-master
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: AksDeploy-master
