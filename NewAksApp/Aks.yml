@@ -2,20 +2,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: AksDeploy-master
+  name: NewAksApp-master
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: AksDeploy-master
+      app: NewAksApp-master
   template:
     metadata:
       labels:
-        app: AksDeploy-master
+        app: NewAksApp-master
     spec:
       containers:
-      - name: AksDeploy-master
-        image: blueacr.azurecr.io/Ragadeep/AksDeploy:#{Build.BuildId}#
+      - name: NewAksApp-master
+        image: blueacr.azurecr.io/Ragadeep/NewAksApp:#{Build.BuildId}#
         ports:
         - containerPort: 80
         env:
@@ -29,10 +29,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: AksDeploy-master
+  name: NewAksApp-master
 spec:
   type: LoadBalancer
   ports:
   - port: 80
   selector:
-    app: AksDeploy-master
+    app: NewAksApp-master
